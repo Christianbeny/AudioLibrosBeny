@@ -1,5 +1,11 @@
 package net.ivanvega.soportediferentespantallasb;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+
+import androidx.annotation.DrawableRes;
+
 import java.util.Vector;
 
 public class Libro {
@@ -12,7 +18,7 @@ public class Libro {
     static Vector<Libro> libros = new Vector<Libro>();
     static {
         final String SERVIDOR =
-                "https://www.audiomol.com/media/dinamico/libros/demos/";
+                "http://www.dcomg.upv.es/~jtomas/android/audiolibros/";
 
         libros.add(new Libro("Kappa", "Akutagawa", R.drawable.kappa, SERVIDOR + "La_metamorfosis_.mp3", Libro.G_S_XIX, false, false));
         libros.add(new Libro("Avecilla", "Alas Clarín, Leopoldo", R.drawable.avecilla, SERVIDOR + "en_la_colonia_penitenciaria.mp3", Libro.G_S_XIX, true, false));
@@ -104,5 +110,9 @@ public class Libro {
 
         return libros;
 
+    }
+
+    public static Bitmap getBitmap(Context context, @DrawableRes int bitmapResource) {
+        return ((BitmapDrawable) context.getResources().getDrawable(bitmapResource)).getBitmap();
     }
 }
