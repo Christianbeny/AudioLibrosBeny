@@ -1,5 +1,6 @@
 package net.ivanvega.soportediferentespantallasb;
 
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 
 import android.telephony.mbms.StreamingServiceInfo;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -16,6 +18,10 @@ import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import com.google.android.exoplayer2.util.Util;
+
+import net.ivanvega.soportediferentespantallasb.services.AudioPlayerService;
 
 import java.io.IOException;
 
@@ -45,6 +51,7 @@ public class DetalleFragment extends Fragment
     private TextView txtTitulo;
     private TextView txtAutor;
     private ImageView imvPortada;
+    Intent iSer;
 
     public DetalleFragment() {
         // Required empty public constructor
@@ -114,6 +121,11 @@ public class DetalleFragment extends Fragment
     }
 
     private void setInfoLibro(int pos, View layout) {
+
+        iSer = new Intent(getContext(), AudioPlayerService.class);
+        Util.startForegroundService(getContext(),iSer);
+        AudioPlayerService.id=pos;
+
         Libro libro = Libro.ejemplosLibros().elementAt(pos);
 
         txtTitulo = (TextView) layout.findViewById(R.id.titulo);
@@ -164,12 +176,17 @@ public class DetalleFragment extends Fragment
 
     @Override
     public void start() {
+        mediaPlayer.seekTo((int)AudioPlayerService.player.getCurrentPosition());
+        mediaPlayer.setVolume(0,0);
         mediaPlayer.start();
+        AudioPlayerService.player.setPlayWhenReady(true);
     }
 
     @Override
     public void pause() {
+        AudioPlayerService.player.setPlayWhenReady(false);
         mediaPlayer.pause();
+        Log.d("MSE", "Peticion  al servicio ");
     }
 
     @Override
