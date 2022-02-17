@@ -46,6 +46,7 @@ import net.ivanvega.soportediferentespantallasb.R;
 
 public class AudioPlayerService extends Service {
 
+
   public static SimpleExoPlayer player;
   private PlayerNotificationManager playerNotificationManager;
   public static final String PLAYBACK_CHANNEL_ID = "playback_channel";
